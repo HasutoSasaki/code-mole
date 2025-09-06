@@ -49,7 +49,7 @@ graph TB
 
 ## 🛠️ Technology Stack
 
-- **Backend**: AWS Lambda(Typescript), DynamoDB, API Gateway
+- **Backend**: AWS Lambda(Typescript), API Gateway
 - **AI/ML**: AWS Bedrock (Claude, LLaMA)
 - **Integration**: GitHub API, Webhooks
 

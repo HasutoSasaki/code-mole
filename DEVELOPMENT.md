@@ -9,7 +9,7 @@
   - [ ] Install development dependencies (Jest, TypeScript, etc.)
   
 - [ ] **Terraform Infrastructure**
-  - [ ] Create Terraform modules (Lambda, API Gateway, DynamoDB)
+  - [ ] Create Terraform modules (Lambda, API Gateway)
   - [ ] Setup dev environment configuration
   - [ ] Setup prod environment configuration
   - [ ] Create deployment scripts
@@ -40,10 +40,6 @@
   - [ ] Learning resource model
   - [ ] GitHub API type definitions
 
-- [ ] **DynamoDB Integration**
-  - [ ] Setup DynamoDB client
-  - [ ] Create data access layer
-  - [ ] Implement CRUD operations
 
 ### Phase 4: Testing & Quality 🧪
 - [ ] **Unit Tests**
@@ -54,7 +50,6 @@
 
 - [ ] **Integration Tests**
   - [ ] API Gateway integration
-  - [ ] DynamoDB integration
   - [ ] External API integration
 
 ### Phase 5: CI/CD & Deployment 🚀

@@ -25,9 +25,6 @@ code-mole/
 │   │   ├── api-gateway/
 │   │   │   ├── main.tf
 │   │   │   └── variables.tf
-│   │   └── dynamodb/
-│   │       ├── main.tf
-│   │       └── variables.tf
 │   └── environments/
 │       ├── dev/
 │       │   ├── terraform.tfvars
@@ -139,7 +136,7 @@ GitHub Actions CI/CD pipelines.
 ## Technology Stack
 
 - **Runtime**: Node.js 22 with TypeScript
-- **Infrastructure**: AWS Lambda, API Gateway, DynamoDB
+- **Infrastructure**: AWS Lambda, API Gateway
 - **IaC**: Terraform
 - **AI/ML**: AWS Bedrock (Claude, LLaMA)
 - **Testing**: Jest (recommended)

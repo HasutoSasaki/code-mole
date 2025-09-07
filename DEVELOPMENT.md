@@ -2,43 +2,48 @@
 
 ## Current Sprint - MVP Implementation
 
-### Phase 1: Project Setup & Infrastructure 🚧
-- [ ] **Setup TypeScript Environment**
-  - [ ] Configure package.json with Node.js 22
-  - [ ] Setup tsconfig.json
-  - [ ] Install development dependencies (Jest, TypeScript, etc.)
+### Phase 1: Project Setup & Infrastructure ✅
+- [x] **Setup TypeScript Environment**
+  - [x] Configure package.json with Node.js 22
+  - [x] Setup tsconfig.json
+  - [x] Install development dependencies (Jest, TypeScript, etc.)
   
-- [ ] **Terraform Infrastructure**
-  - [ ] Create Terraform modules (Lambda, API Gateway)
-  - [ ] Setup dev environment configuration
-  - [ ] Setup prod environment configuration
-  - [ ] Create deployment scripts
+- [x] **Terraform Infrastructure**
+  - [x] Create Terraform modules (Lambda, API Gateway)
+  - [x] Setup dev environment configuration
+  - [x] Setup prod environment configuration
+  - [x] Create deployment scripts
 
-### Phase 2: Core Lambda Functions 📝
-- [ ] **GitHub Webhook Handler**
-  - [ ] Create webhook.ts handler
-  - [ ] Implement PR event processing
-  - [ ] Add input validation
-  - [ ] Add error handling and logging
+### Phase 2: Core Lambda Functions ✅
+- [x] **GitHub Webhook Handler**
+  - [x] Create webhook.ts handler
+  - [x] Implement PR event processing
+  - [x] Add input validation
+  - [x] Add error handling and logging
 
-- [ ] **Code Analysis Service**
-  - [ ] Create analyzer.ts handler
-  - [ ] Integrate AWS Bedrock client
-  - [ ] Implement code review logic
-  - [ ] Add analysis result models
+- [x] **Code Analysis Service**
+  - [x] Create analyzer.ts handler
+  - [x] Integrate AWS Bedrock client
+  - [x] Implement code review logic
+  - [x] Add analysis result models
 
-- [ ] **External API Services**
-  - [ ] GitHub API client service
+- [x] **External API Services**
+  - [x] GitHub API client service
   - [ ] Qiita API client service
   - [ ] Google Search API client service
-  - [ ] AWS Bedrock service integration
+  - [x] AWS Bedrock service integration
 
-### Phase 3: Data & Models 💾
-- [ ] **TypeScript Models**
-  - [ ] Pull Request model
-  - [ ] Analysis result model
-  - [ ] Learning resource model
-  - [ ] GitHub API type definitions
+### Phase 3: Data & Models ✅
+- [x] **TypeScript Models**
+  - [x] Pull Request model
+  - [x] Analysis result model
+  - [x] Learning resource model
+  - [x] GitHub API type definitions
+
+- [x] **Architecture Refactoring**
+  - [x] Separate handlers, services, and lib layers
+  - [x] Extract business logic from handlers
+  - [x] Update ARCHITECTURE.md documentation
 
 
 ### Phase 4: Testing & Quality 🧪
@@ -64,7 +69,7 @@
   - [ ] Rollback procedures
 
 ## Current Focus
-**Next Task**: Setup TypeScript environment and project dependencies
+**Next Task**: Unit Testing & Quality Assurance (Phase 4)
 
 ## Development Notes
 - Using Node.js 22 with TypeScript
@@ -76,7 +81,9 @@
 *None currently*
 
 ## Completed ✅
-*Initial project setup and architecture planning*
+- ✅ Phase 1: Project Setup & Infrastructure
+- ✅ Phase 2: Core Lambda Functions  
+- ✅ Phase 3: Data & Models + Architecture Refactoring
 
 ---
 *Last Updated: 2025-09-06*

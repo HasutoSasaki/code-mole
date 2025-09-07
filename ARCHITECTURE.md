@@ -35,9 +35,11 @@ code-mole/
 ├── src/
 │   ├── handlers/
 │   │   ├── webhook.ts
-│   │   ├── analyzer.ts
-│   │   └── resources.ts
+│   │   └── analyzer.ts
 │   ├── services/
+│   │   ├── webhook.ts
+│   │   └── analysis.ts
+│   ├── lib/
 │   │   ├── github.ts
 │   │   ├── bedrock.ts
 │   │   ├── qiita.ts
@@ -87,12 +89,15 @@ Infrastructure as Code using Terraform for AWS resource management.
 ### `/src/`
 TypeScript source code for Lambda functions.
 
-- **`handlers/`**: Lambda function entry points
+- **`handlers/`**: Lambda function entry points (thin API layer)
   - `webhook.ts`: GitHub webhook handler
   - `analyzer.ts`: Code analysis handler
-  - `resources.ts`: Learning resource suggestion handler
 
-- **`services/`**: External API integrations
+- **`services/`**: Business logic and domain services
+  - `webhook.ts`: Webhook event processing logic
+  - `analysis.ts`: Code analysis orchestration
+
+- **`lib/`**: External API integrations and infrastructure layer
   - `github.ts`: GitHub API client
   - `bedrock.ts`: AWS Bedrock integration
   - `qiita.ts`: Qiita API client
@@ -144,7 +149,7 @@ GitHub Actions CI/CD pipelines.
 
 ## Key Design Principles
 
-1. **Separation of Concerns**: Clear separation between handlers, services, and models
+1. **Separation of Concerns**: Clear separation between handlers (API layer), services (business logic), and lib (infrastructure layer)
 2. **Environment Management**: Infrastructure code organized by environments
 3. **Type Safety**: Comprehensive TypeScript type definitions
 4. **Testability**: Test structure mirrors source structure

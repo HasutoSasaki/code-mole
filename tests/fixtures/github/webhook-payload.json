@@ -1,0 +1,86 @@
+{
+  "action": "opened",
+  "number": 123,
+  "pull_request": {
+    "id": 456,
+    "number": 123,
+    "title": "Add new feature",
+    "body": "This PR adds a new feature",
+    "state": "open",
+    "draft": false,
+    "user": {
+      "id": 1,
+      "login": "testuser",
+      "avatar_url": "https://github.com/images/error/testuser_happy.gif",
+      "html_url": "https://github.com/testuser",
+      "type": "User"
+    },
+    "head": {
+      "sha": "abc123",
+      "ref": "feature-branch",
+      "repo": {
+        "id": 789,
+        "name": "test-repo",
+        "full_name": "testuser/test-repo",
+        "private": false,
+        "owner": {
+          "id": 1,
+          "login": "testuser",
+          "avatar_url": "https://github.com/images/error/testuser_happy.gif",
+          "html_url": "https://github.com/testuser",
+          "type": "User"
+        },
+        "html_url": "https://github.com/testuser/test-repo",
+        "clone_url": "https://github.com/testuser/test-repo.git",
+        "default_branch": "main"
+      }
+    },
+    "base": {
+      "sha": "def456",
+      "ref": "main",
+      "repo": {
+        "id": 789,
+        "name": "test-repo",
+        "full_name": "testuser/test-repo",
+        "private": false,
+        "owner": {
+          "id": 1,
+          "login": "testuser",
+          "avatar_url": "https://github.com/images/error/testuser_happy.gif",
+          "html_url": "https://github.com/testuser",
+          "type": "User"
+        },
+        "html_url": "https://github.com/testuser/test-repo",
+        "clone_url": "https://github.com/testuser/test-repo.git",
+        "default_branch": "main"
+      }
+    },
+    "created_at": "2023-01-01T00:00:00Z",
+    "updated_at": "2023-01-01T00:00:00Z",
+    "diff_url": "https://github.com/testuser/test-repo/pull/123.diff",
+    "patch_url": "https://github.com/testuser/test-repo/pull/123.patch"
+  },
+  "repository": {
+    "id": 789,
+    "name": "test-repo",
+    "full_name": "testuser/test-repo",
+    "private": false,
+    "owner": {
+      "id": 1,
+      "login": "testuser",
+      "avatar_url": "https://github.com/images/error/testuser_happy.gif",
+      "html_url": "https://github.com/testuser",
+      "type": "User"
+    },
+    "html_url": "https://github.com/testuser/test-repo",
+    "clone_url": "https://github.com/testuser/test-repo.git",
+    "default_branch": "main"
+  },
+  "sender": {
+    "id": 1,
+    "login": "testuser",
+    "avatar_url": "https://github.com/images/error/testuser_happy.gif",
+    "html_url": "https://github.com/testuser",
+    "type": "User"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"issues\": [{\"type\": \"style\", \"severity\": \"low\", \"line\": 5, \"description\": \"変数名が短すぎます\", \"recommendation\": \"より説明的な変数名を使用してください\"}], \"summary\": \"1件の軽微なスタイルの問題が見つかりました\"}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 100,
+    "output_tokens": 50
+  }
+}

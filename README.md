@@ -34,22 +34,24 @@ graph TB
     GitHubHook --> APIGateway[API Gateway]
 
     subgraph "AWS Cloud"
-    APIGateway --> Lambda[AWS Lambda]
-    Lambda --> Bedrock[AWS Bedrock]
-    Bedrock --> Lambda
+    APIGateway --> WebhookLambda[Webhook Lambda]
+    WebhookLambda --> SQS[SQS Queue]
+    SQS --> AnalyzerLambda[Analyzer Lambda]
+    AnalyzerLambda --> Bedrock[AWS Bedrock]
+    Bedrock --> AnalyzerLambda
     end 
 
-    Lambda --> Qiita[Qiita API]
-    Lambda --> Google[Google Search API]
-    Qiita --> Lambda
+    AnalyzerLambda --> Qiita[Qiita API]
+    AnalyzerLambda --> Google[Google Search API]
+    Qiita --> AnalyzerLambda
     
-    Lambda --> GitHub
+    AnalyzerLambda --> GitHub
 
 ```
 
 ## 🛠️ Technology Stack
 
-- **Backend**: AWS Lambda(Typescript), API Gateway
+- **Backend**: AWS Lambda(Typescript), API Gateway, SQS
 - **AI/ML**: AWS Bedrock (Claude, LLaMA)
 - **Integration**: GitHub API, Webhooks
 

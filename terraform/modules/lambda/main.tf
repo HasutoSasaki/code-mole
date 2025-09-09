@@ -1,7 +1,7 @@
 data "aws_iam_policy_document" "lambda_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
-    
+
     principals {
       type        = "Service"
       identifiers = ["lambda.amazonaws.com"]
@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "lambda_assume_role" {
 resource "aws_iam_role" "lambda_role" {
   name               = "${var.project_name}-${var.environment}-lambda-role"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
-  
+
   tags = var.tags
 }
 
@@ -39,42 +39,42 @@ resource "aws_iam_role_policy" "lambda_policy" {
 
 data "archive_file" "lambda_zip" {
   type        = "zip"
-  source_dir  = "${path.root}/../dist"
+  source_dir  = "${path.root}/../dist/src"
   output_path = "${path.module}/lambda.zip"
 }
 
 resource "aws_lambda_function" "webhook_handler" {
   filename         = data.archive_file.lambda_zip.output_path
   function_name    = "${var.project_name}-${var.environment}-webhook-handler"
-  role            = aws_iam_role.lambda_role.arn
-  handler         = "handlers/webhook.handler"
+  role             = aws_iam_role.lambda_role.arn
+  handler          = "handlers/webhook.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
-  runtime         = var.lambda_runtime
-  timeout         = 30
-  
+  runtime          = var.lambda_runtime
+  timeout          = 30
+
   environment {
     variables = {
       NODE_ENV = var.environment
     }
   }
-  
+
   tags = var.tags
 }
 
 resource "aws_lambda_function" "analyzer_handler" {
   filename         = data.archive_file.lambda_zip.output_path
   function_name    = "${var.project_name}-${var.environment}-analyzer"
-  role            = aws_iam_role.lambda_role.arn
-  handler         = "handlers/analyzer.handler"
+  role             = aws_iam_role.lambda_role.arn
+  handler          = "handlers/analyzer.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
-  runtime         = var.lambda_runtime
-  timeout         = 300
-  
+  runtime          = var.lambda_runtime
+  timeout          = 300
+
   environment {
     variables = {
       NODE_ENV = var.environment
     }
   }
-  
+
   tags = var.tags
 }

@@ -24,6 +24,14 @@ module "lambda" {
   tags = var.tags
 }
 
+# SQS Module
+module "sqs" {
+  source = "./modules/sqs"
+
+  queue_name = "${var.project_name}-${var.environment}-analysis-queue"
+  tags       = var.tags
+}
+
 # API Gateway Module
 module "api_gateway" {
   source = "./modules/api-gateway"

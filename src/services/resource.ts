@@ -1,5 +1,4 @@
 import { ResourceModel } from '../models/resource';
-import { LearningResource } from '../types/common';
 import { LanguageDetector, TechTagExtractor, RelevanceCalculator } from '../utils/textAnalyzer';
 
 export class ResourceCollectionService {
@@ -102,15 +101,15 @@ export class ResourceCollectionService {
     };
   }
 
-  private getTopTags(limit: number): Array<{tag: string, count: number}> {
+  private getTopTags(limit: number): Array<{ tag: string, count: number }> {
     const tagCounts = new Map<string, number>();
-    
+
     this.resources.forEach(resource => {
       resource.tags.forEach(tag => {
         tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
       });
     });
-    
+
     return Array.from(tagCounts.entries())
       .map(([tag, count]) => ({ tag, count }))
       .sort((a, b) => b.count - a.count)
@@ -135,7 +134,7 @@ export interface ResourceCollectionStatistics {
   };
   japanese: number;
   english: number;
-  topTags: Array<{tag: string, count: number}>;
+  topTags: Array<{ tag: string, count: number }>;
 }
 
 export class ResourceFactory {
@@ -152,7 +151,7 @@ export class ResourceFactory {
 
   static fromGoogleResult(result: any): ResourceModel {
     const content = `${result.title || ''} ${result.snippet || ''}`;
-    
+
     return new ResourceModel({
       title: result.title || 'Untitled',
       url: result.link || '',
@@ -176,17 +175,17 @@ export class ResourceFactory {
 
   private static extractDescription(body: string | null): string {
     if (!body) return '';
-    
+
     // HTMLタグを除去して最初の200文字を取得
     const plainText = body.replace(/<[^>]*>/g, '').trim();
-    return plainText.length > 200 
+    return plainText.length > 200
       ? plainText.substring(0, 200) + '...'
       : plainText;
   }
 
   private static extractQiitaTags(tags: any[] | undefined): string[] {
     if (!tags || !Array.isArray(tags)) return [];
-    
+
     return tags
       .map(tag => typeof tag === 'string' ? tag : tag.name)
       .filter(Boolean);

@@ -1,59 +1,69 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
+import { SQSEvent, SQSRecord, Context } from 'aws-lambda';
 import { logger } from '../utils/logger';
 import { validateConfig } from '../utils/config';
 import { AnalysisService, AnalyzeRequest } from '../services/analysis';
+import { AnalysisMessage } from '../lib/sqs';
 
 export const handler = async (
-  event: APIGatewayProxyEvent,
+  event: SQSEvent,
   context: Context
-): Promise<APIGatewayProxyResult> => {
+): Promise<void> => {
   logger.setContext({ requestId: context.awsRequestId });
 
   try {
     validateConfig();
-    logger.info('Code analyzer handler started');
+    logger.info('Code analyzer handler started', { recordCount: event.Records.length });
 
-    if (!event.body) {
-      logger.warn('No body in request');
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Request body is required' })
-      };
-    }
-
-    const request: AnalyzeRequest = JSON.parse(event.body);
+    const analysisService = new AnalysisService();
     
-    if (!request.repository || !request.pullRequestNumber || !request.owner || !request.repo) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Missing required fields' })
-      };
+    // Process each SQS record
+    for (const record of event.Records) {
+      await processSQSRecord(record, analysisService);
     }
+    
+    logger.info('All SQS records processed successfully');
 
+  } catch (error) {
+    logger.error('Error in code analyzer', error);
+    throw error; // Re-throw to trigger SQS retry mechanism
+  }
+};
+
+async function processSQSRecord(record: SQSRecord, analysisService: AnalysisService): Promise<void> {
+  try {
+    const message: AnalysisMessage = JSON.parse(record.body);
+    
+    logger.info('Processing analysis message', {
+      repository: message.repository,
+      pullRequestNumber: message.pullRequestNumber,
+      action: message.action
+    });
+    
+    const request: AnalyzeRequest = {
+      repository: message.repository,
+      owner: message.owner,
+      repo: message.repo,
+      pullRequestNumber: message.pullRequestNumber
+    };
+    
     logger.setContext({
       repository: request.repository,
       pullRequestId: request.pullRequestNumber.toString()
     });
 
-    const analysisService = new AnalysisService();
-    const result = await analysisService.analyzeCode(request);
+    await analysisService.analyzeCode(request);
     
-    logger.info('Code analysis completed successfully');
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: 'Analysis completed',
-        data: result
-      })
-    };
-
+    logger.info('Code analysis completed successfully', { 
+      messageId: record.messageId,
+      repository: message.repository,
+      pullRequestNumber: message.pullRequestNumber
+    });
+    
   } catch (error) {
-    logger.error('Error in code analyzer', error);
-    
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Analysis failed' })
-    };
+    logger.error('Failed to process SQS record', {
+      messageId: record.messageId,
+      error
+    });
+    throw error;
   }
-};
+}

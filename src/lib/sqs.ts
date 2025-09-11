@@ -17,9 +17,9 @@ export class SQSService {
     this.client = new SQSClient({
       region: process.env.AWS_REGION || 'us-east-1',
     });
-    
-    this.queueUrl = process.env.SQS_QUEUE_URL;
-    
+
+    this.queueUrl = process.env.SQS_QUEUE_URL || '';
+
     if (!this.queueUrl) {
       throw new Error('SQS_QUEUE_URL environment variable is required');
     }
@@ -28,7 +28,7 @@ export class SQSService {
   async sendAnalysisMessage(message: AnalysisMessage): Promise<void> {
     try {
       const messageBody = JSON.stringify(message);
-      
+
       const input: SendMessageCommandInput = {
         QueueUrl: this.queueUrl,
         MessageBody: messageBody,

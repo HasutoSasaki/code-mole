@@ -1,6 +1,6 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
 import { handler } from './analyzer';
-import { createMockAPIGatewayEvent, createMockContext } from '../../tests/helpers/mocks';
+import { createMockSQSEvent, createMockSQSRecord, createMockContext } from '../../tests/helpers/mocks';
 import { AnalysisResult } from '../types/common';
 
 // Mock dependencies
@@ -38,43 +38,48 @@ describe('analyzer handler', () => {
     jest.clearAllMocks();
   });
 
-  it('should handle valid analysis request', async () => {
-    const request = {
+  it('should handle valid SQS message', async () => {
+    const message = {
       repository: 'testuser/test-repo',
       pullRequestNumber: 123,
       owner: 'testuser',
-      repo: 'test-repo'
+      repo: 'test-repo',
+      action: 'opened'
     };
-    const event = createMockAPIGatewayEvent(JSON.stringify(request));
+    const sqsRecord = createMockSQSRecord(JSON.stringify(message));
+    const event = createMockSQSEvent([sqsRecord]);
 
-    const result = await handler(event, context);
-
-    expect(result.statusCode).toBe(200);
-    const body = JSON.parse(result.body);
-    expect(body.message).toBe('Analysis completed');
-    expect(body.data).toBeDefined();
+    await expect(handler(event, context)).resolves.toBeUndefined();
   });
 
-  it('should return 400 for missing body', async () => {
-    const event = createMockAPIGatewayEvent();
+  it('should handle empty SQS event', async () => {
+    const event = createMockSQSEvent([]);
 
-    const result = await handler(event, context);
-
-    expect(result.statusCode).toBe(400);
-    expect(JSON.parse(result.body)).toEqual({
-      error: 'Request body is required'
-    });
+    await expect(handler(event, context)).resolves.toBeUndefined();
   });
 
-  it('should return 400 for missing required fields', async () => {
-    const request = { repository: 'testuser/test-repo' }; // missing other fields
-    const event = createMockAPIGatewayEvent(JSON.stringify(request));
+  it('should handle multiple SQS records', async () => {
+    const message1 = {
+      repository: 'testuser/test-repo-1',
+      pullRequestNumber: 123,
+      owner: 'testuser',
+      repo: 'test-repo-1',
+      action: 'opened'
+    };
+    const message2 = {
+      repository: 'testuser/test-repo-2',
+      pullRequestNumber: 456,
+      owner: 'testuser',
+      repo: 'test-repo-2',
+      action: 'synchronize'
+    };
+    
+    const records = [
+      createMockSQSRecord(JSON.stringify(message1), 'msg-1'),
+      createMockSQSRecord(JSON.stringify(message2), 'msg-2')
+    ];
+    const event = createMockSQSEvent(records);
 
-    const result = await handler(event, context);
-
-    expect(result.statusCode).toBe(400);
-    expect(JSON.parse(result.body)).toEqual({
-      error: 'Missing required fields'
-    });
+    await expect(handler(event, context)).resolves.toBeUndefined();
   });
 });

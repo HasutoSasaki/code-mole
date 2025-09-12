@@ -20,6 +20,9 @@ module "lambda" {
   environment    = var.environment
   project_name   = var.project_name
   lambda_runtime = var.lambda_runtime
+  sqs_queue_url  = module.sqs.queue_url
+  sqs_queue_arn  = module.sqs.queue_arn
+  aws_region     = var.aws_region
 
   tags = var.tags
 }

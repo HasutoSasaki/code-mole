@@ -29,6 +29,17 @@ data "aws_iam_policy_document" "lambda_policy" {
     ]
     resources = ["*"]
   }
+  
+  statement {
+    effect = "Allow"
+    actions = [
+      "sqs:SendMessage",
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes"
+    ]
+    resources = [var.sqs_queue_arn]
+  }
 }
 
 resource "aws_iam_role_policy" "lambda_policy" {
@@ -54,7 +65,8 @@ resource "aws_lambda_function" "webhook_handler" {
 
   environment {
     variables = {
-      NODE_ENV = var.environment
+      NODE_ENV      = var.environment
+      SQS_QUEUE_URL = var.sqs_queue_url
     }
   }
 
@@ -72,7 +84,8 @@ resource "aws_lambda_function" "analyzer_handler" {
 
   environment {
     variables = {
-      NODE_ENV = var.environment
+      NODE_ENV      = var.environment
+      SQS_QUEUE_URL = var.sqs_queue_url
     }
   }
 

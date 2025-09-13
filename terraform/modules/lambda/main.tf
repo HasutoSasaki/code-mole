@@ -61,14 +61,24 @@ data "archive_file" "octokit_layer_zip" {
   excludes    = ["build.sh", "package.json"]
 }
 
+# Hash only the package.json for layer dependency tracking
+locals {
+  layer_package_json_hash = filemd5("${path.root}/../layers/octokit/nodejs/package.json")
+}
+
 resource "aws_lambda_layer_version" "octokit_layer" {
-  filename         = data.archive_file.octokit_layer_zip.output_path
-  layer_name       = "${var.project_name}-${var.environment}-octokit"
-  source_code_hash = data.archive_file.octokit_layer_zip.output_base64sha256
+  filename    = data.archive_file.octokit_layer_zip.output_path
+  layer_name  = "${var.project_name}-${var.environment}-octokit"
+  
+  # Only update when package.json changes
+  source_code_hash = local.layer_package_json_hash
   
   compatible_runtimes = [var.lambda_runtime]
-  
   description = "@octokit/rest dependencies layer"
+  
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_lambda_function" "webhook_handler" {

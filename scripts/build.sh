@@ -24,7 +24,7 @@ npm run build
 
 # Copy package.json to dist for ES module support
 echo "📋 Copying package.json for ES module support..."
-cp package.json dist/
+cp package.json dist/src/
 
 # Build Lambda Layer
 echo "🏗️ Building Lambda layers..."

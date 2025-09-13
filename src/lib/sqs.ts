@@ -15,7 +15,7 @@ export class SQSService {
 
   constructor() {
     this.client = new SQSClient({
-      region: process.env.AWS_REGION || 'us-east-1',
+      region: process.env.AWS_REGION || 'ap-northeast-1',
     });
 
     this.queueUrl = process.env.SQS_QUEUE_URL || '';

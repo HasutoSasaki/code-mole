@@ -1,8 +1,8 @@
 import { SQSEvent, SQSRecord, Context } from 'aws-lambda';
-import { logger } from '../utils/logger';
-import { validateConfig } from '../utils/config';
-import { AnalysisService, AnalyzeRequest } from '../services/analysis';
-import { AnalysisMessage } from '../lib/sqs';
+import { logger } from '../utils/logger.js';
+import { validateConfig } from '../utils/config.js';
+import { AnalysisService, AnalyzeRequest } from '../services/analysis.js';
+import { AnalysisMessage } from '../lib/sqs.js';
 
 export const handler = async (
   event: SQSEvent,

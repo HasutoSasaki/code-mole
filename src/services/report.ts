@@ -1,5 +1,5 @@
-import { AnalysisModel, CodeIssueModel, LearningResourceModel } from '../models/analysis';
-import { IssueTypeFormatter, SeverityFormatter, DateFormatter } from '../utils/formatters';
+import { AnalysisModel, CodeIssueModel, LearningResourceModel } from '../models/analysis.js';
+import { IssueTypeFormatter, SeverityFormatter, DateFormatter } from '../utils/formatters.js';
 
 export class ReportGenerator {
   generateMarkdownReport(analysis: AnalysisModel): string {

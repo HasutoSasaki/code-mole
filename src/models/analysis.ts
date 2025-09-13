@@ -1,4 +1,4 @@
-import { AnalysisResult, CodeIssue, LearningResource } from '../types/common';
+import { AnalysisResult, CodeIssue, LearningResource } from '../types/common.js';
 
 export class AnalysisModel {
   public readonly id: string;

@@ -1,5 +1,5 @@
-import { ResourceModel } from '../models/resource';
-import { LanguageDetector, TechTagExtractor, RelevanceCalculator } from '../utils/textAnalyzer';
+import { ResourceModel } from '../models/resource.js';
+import { LanguageDetector, TechTagExtractor, RelevanceCalculator } from '../utils/textAnalyzer.js';
 
 export class ResourceCollectionService {
   private resources: ResourceModel[] = [];

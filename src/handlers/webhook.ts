@@ -1,9 +1,9 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { logger } from '../utils/logger';
-import { validateConfig } from '../utils/config';
-import { validateWebhookPayload, ValidationError } from '../utils/validator';
-import { GitHubWebhookPayload } from '../types/github';
-import { WebhookService } from '../services/webhook';
+import { logger } from '../utils/logger.js';
+import { validateConfig } from '../utils/config.js';
+import { validateWebhookPayload, ValidationError } from '../utils/validator.js';
+import { GitHubWebhookPayload } from '../types/github.js';
+import { WebhookService } from '../services/webhook.js';
 
 export const handler = async (
   event: APIGatewayProxyEvent,

@@ -1,4 +1,4 @@
-import { LogContext } from '../types/common';
+import { LogContext } from '../types/common.js';
 
 export enum LogLevel {
   DEBUG = 'debug',

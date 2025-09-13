@@ -1,7 +1,7 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import { handler } from './analyzer';
-import { createMockSQSEvent, createMockSQSRecord, createMockContext } from '../../tests/helpers/mocks';
-import { AnalysisResult } from '../types/common';
+import { handler } from './analyzer.js';
+import { createMockSQSEvent, createMockSQSRecord, createMockContext } from '../../tests/helpers/mocks.js';
+import { AnalysisResult } from '../types/common.js';
 
 // Mock dependencies
 jest.mock('../utils/config', () => ({

@@ -2,9 +2,9 @@ import {
   BedrockRuntimeClient,
   InvokeModelCommand,
 } from '@aws-sdk/client-bedrock-runtime';
-import { config } from '../utils/config';
-import { logger } from '../utils/logger';
-import { BedrockRequest, BedrockResponse } from '../types/aws';
+import { config } from '../utils/config.js';
+import { logger } from '../utils/logger.js';
+import { BedrockRequest, BedrockResponse } from '../types/aws.js';
 
 export class BedrockService {
   private client: BedrockRuntimeClient;

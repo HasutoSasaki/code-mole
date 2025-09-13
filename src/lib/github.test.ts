@@ -1,6 +1,6 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import { GitHubService } from './github';
-import prFiles from '../../tests/fixtures/github/pr-files.json';
+import { GitHubService } from './github.js';
+import prFiles from '../../tests/fixtures/github/pr-files.json' with { type: 'json' };
 
 // Mock Octokit
 jest.mock('@octokit/rest', () => ({

@@ -1,4 +1,4 @@
-import { Config } from '../types/common';
+import { Config } from '../types/common.js';
 
 export const config: Config = {
   nodeEnv: process.env.NODE_ENV || 'development',

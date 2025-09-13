@@ -1,5 +1,5 @@
 import { SQSClient, SendMessageCommand, SendMessageCommandInput } from '@aws-sdk/client-sqs';
-import { logger } from '../utils/logger';
+import { logger } from '../utils/logger.js';
 
 export interface AnalysisMessage {
   repository: string;

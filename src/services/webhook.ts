@@ -1,6 +1,6 @@
-import { GitHubWebhookPayload } from '../types/github';
-import { logger } from '../utils/logger';
-import { SQSService, AnalysisMessage } from '../lib/sqs';
+import { GitHubWebhookPayload } from '../types/github.js';
+import { logger } from '../utils/logger.js';
+import { SQSService, AnalysisMessage } from '../lib/sqs.js';
 
 export interface WebhookProcessResult {
   message: string;

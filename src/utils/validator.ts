@@ -1,4 +1,4 @@
-import { GitHubWebhookPayload } from '../types/github';
+import { GitHubWebhookPayload } from '../types/github.js';
 
 export class ValidationError extends Error {
   constructor(message: string) {

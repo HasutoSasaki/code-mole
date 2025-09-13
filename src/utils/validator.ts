@@ -1,4 +1,4 @@
-import { GitHubWebhookPayload } from '../types/github.js';
+import type { GitHubWebhookPayload } from '../types/github.js';
 
 export class ValidationError extends Error {
   constructor(message: string) {
@@ -43,7 +43,7 @@ export function validateGitHubSignature(payload: string, signature: string, secr
     .digest('hex');
 
   const actualSignature = signature.replace('sha256=', '');
-  
+
   return crypto.timingSafeEqual(
     Buffer.from(expectedSignature, 'hex'),
     Buffer.from(actualSignature, 'hex')

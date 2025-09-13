@@ -1,16 +1,16 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { logger } from '../utils/logger';
-import { validateConfig } from '../utils/config';
-import { validateWebhookPayload, ValidationError } from '../utils/validator';
-import { GitHubWebhookPayload } from '../types/github';
-import { WebhookService } from '../services/webhook';
+import { logger } from '../utils/logger.js';
+import { validateConfig } from '../utils/config.js';
+import { validateWebhookPayload, ValidationError } from '../utils/validator.js';
+import { GitHubWebhookPayload } from '../types/github.js';
+import { WebhookService } from '../services/webhook.js';
 
 export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
   logger.setContext({ requestId: context.awsRequestId });
-  
+
   try {
     validateConfig();
     logger.info('Webhook handler started');
@@ -24,9 +24,9 @@ export const handler = async (
     }
 
     const payload: GitHubWebhookPayload = JSON.parse(event.body);
-    
+
     validateWebhookPayload(payload);
-    
+
     logger.setContext({
       repository: payload.repository.full_name,
       pullRequestId: payload.pull_request.number.toString()
@@ -34,7 +34,7 @@ export const handler = async (
 
     const webhookService = new WebhookService();
     const result = await webhookService.processWebhookEvent(payload);
-    
+
     logger.info('Webhook processed successfully', { result });
 
     return {

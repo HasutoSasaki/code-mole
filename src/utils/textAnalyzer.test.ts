@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { LanguageDetector, TechTagExtractor, RelevanceCalculator } from './textAnalyzer';
+import { LanguageDetector, TechTagExtractor, RelevanceCalculator } from './textAnalyzer.js';
 
 describe('LanguageDetector', () => {
   it('should detect Japanese text', () => {

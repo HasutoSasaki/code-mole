@@ -25,3 +25,22 @@ export interface BedrockRequest {
   }>;
   temperature?: number;
 }
+
+export interface TitanRequest {
+  inputText: string;
+  textGenerationConfig: {
+    maxTokenCount: number;
+    temperature: number;
+    topP?: number;
+    stopSequences?: string[];
+  };
+}
+
+export interface TitanResponse {
+  results: Array<{
+    outputText: string;
+    tokenCount: number;
+    completionReason: string;
+  }>;
+  inputTextTokenCount: number;
+}

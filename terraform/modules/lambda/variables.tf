@@ -18,3 +18,18 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "sqs_queue_url" {
+  description = "SQS Queue URL"
+  type        = string
+}
+
+variable "aws_region" {
+  description = "AWS Region"
+  type        = string
+}
+
+variable "sqs_queue_arn" {
+  description = "SQS Queue ARN"
+  type        = string
+}

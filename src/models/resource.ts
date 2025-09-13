@@ -1,5 +1,5 @@
-import { LearningResource } from '../types/common';
-import { ResourceSourceFormatter } from '../utils/formatters';
+import { LearningResource } from '../types/common.js';
+import { ResourceSourceFormatter } from '../utils/formatters.js';
 
 export class ResourceModel {
   public readonly title: string;

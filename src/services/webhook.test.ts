@@ -1,7 +1,7 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import { WebhookService } from './webhook';
-import { GitHubWebhookPayload } from '../types/github';
-import webhookPayload from '../../tests/fixtures/github/webhook-payload.json';
+import { WebhookService } from './webhook.js';
+import { GitHubWebhookPayload } from '../types/github.js';
+import webhookPayload from '../../tests/fixtures/github/webhook-payload.json' with { type: 'json' };
 
 jest.mock('../utils/logger', () => ({
   logger: {

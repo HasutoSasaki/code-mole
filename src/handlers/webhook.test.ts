@@ -1,8 +1,8 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import { handler } from './webhook';
-import { WebhookProcessResult } from '../services/webhook'
-import { createMockAPIGatewayEvent, createMockContext } from '../../tests/helpers/mocks';
-import webhookPayload from '../../tests/fixtures/github/webhook-payload.json';
+import { handler } from './webhook.js';
+import { WebhookProcessResult } from '../services/webhook.js';
+import { createMockAPIGatewayEvent, createMockContext } from '../../tests/helpers/mocks.js';
+import webhookPayload from '../../tests/fixtures/github/webhook-payload.json' with { type: 'json' };
 
 // Mock dependencies
 jest.mock('../utils/config', () => ({

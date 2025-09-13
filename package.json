@@ -2,6 +2,7 @@
   "name": "code-mole",
   "version": "1.0.0",
   "description": "An intelligent code review assistant that digs deep into your code to find issues and suggests helpful learning resources",
+  "type": "module",
   "main": "dist/index.js",
   "engines": {
     "node": ">=22.0.0"
@@ -40,6 +41,6 @@
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.632.0",
-    "@octokit/rest": "^21.0.2"
+    "@aws-sdk/client-sqs": "^3.632.0"
   }
 }

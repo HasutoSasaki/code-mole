@@ -1,4 +1,4 @@
-import { PullRequest as GitHubPullRequest, Repository, User } from '../types/github';
+import { PullRequest as GitHubPullRequest, Repository, User } from '../types/github.js';
 
 export class PullRequestModel {
   public readonly id: number;

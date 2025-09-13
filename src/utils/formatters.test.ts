@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { IssueTypeFormatter, SeverityFormatter, ResourceSourceFormatter, DateFormatter } from './formatters';
+import { IssueTypeFormatter, SeverityFormatter, ResourceSourceFormatter, DateFormatter } from './formatters.js';
 
 describe('IssueTypeFormatter', () => {
   it('should format known issue types', () => {

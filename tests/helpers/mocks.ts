@@ -64,6 +64,27 @@ export const mockBedrockClient = {
   send: jest.fn()
 };
 
+export const createMockSQSEvent = (records: any[] = []) => ({
+  Records: records
+});
+
+export const createMockSQSRecord = (body: string, messageId: string = 'test-message-id') => ({
+  messageId,
+  receiptHandle: 'test-receipt-handle',
+  body,
+  attributes: {
+    ApproximateReceiveCount: '1',
+    SentTimestamp: '1672531200000',
+    SenderId: 'test-sender',
+    ApproximateFirstReceiveTimestamp: '1672531200000'
+  },
+  messageAttributes: {},
+  md5OfBody: 'test-md5',
+  eventSource: 'aws:sqs',
+  eventSourceARN: 'arn:aws:sqs:ap-northeast-1:123456789012:test-queue',
+  awsRegion: 'ap-northeast-1'
+});
+
 export const mockOctokit = {
   rest: {
     pulls: {

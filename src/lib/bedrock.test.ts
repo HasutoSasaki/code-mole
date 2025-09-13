@@ -1,7 +1,7 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import { BedrockService } from './bedrock';
+import { BedrockService } from './bedrock.js';
 import { InvokeModelCommandOutput } from '@aws-sdk/client-bedrock-runtime';
-import bedrockResponse from '../../tests/fixtures/bedrock/analysis-response.json';
+import bedrockResponse from '../../tests/fixtures/bedrock/analysis-response.json' with { type: 'json' };
 
 // Mock AWS SDK
 const mockSend = jest.fn<() => Promise<InvokeModelCommandOutput>>();

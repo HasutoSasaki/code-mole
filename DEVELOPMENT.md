@@ -14,18 +14,20 @@
   - [x] Setup prod environment configuration
   - [x] Create deployment scripts
 
-### Phase 2: Core Lambda Functions ✅
+### Phase 2: Core Lambda Functions 🚧
 - [x] **GitHub Webhook Handler**
   - [x] Create webhook.ts handler
   - [x] Implement PR event processing
   - [x] Add input validation
   - [x] Add error handling and logging
+  - [ ] **SQS Integration for async processing**
 
 - [x] **Code Analysis Service**
   - [x] Create analyzer.ts handler
   - [x] Integrate AWS Bedrock client
   - [x] Implement code review logic
   - [x] Add analysis result models
+  - [ ] **SQS event trigger integration**
 
 - [x] **External API Services**
   - [x] GitHub API client service
@@ -69,7 +71,10 @@
   - [ ] Rollback procedures
 
 ## Current Focus
-**Next Task**: Unit Testing & Quality Assurance (Phase 4)
+**Next Task**: SQS Integration Implementation (Phase 2 completion)
+- Add SQS queue to Terraform infrastructure
+- Implement SQS message sending in webhook handler
+- Update analyzer handler to process SQS events
 
 ## Development Notes
 - Using Node.js 22 with TypeScript
@@ -82,8 +87,11 @@
 
 ## Completed ✅
 - ✅ Phase 1: Project Setup & Infrastructure
-- ✅ Phase 2: Core Lambda Functions  
 - ✅ Phase 3: Data & Models + Architecture Refactoring
+- ✅ Documentation updates for SQS integration
+
+## In Progress 🚧
+- 🚧 Phase 2: Core Lambda Functions (SQS integration pending)
 
 ---
-*Last Updated: 2025-09-06*
+*Last Updated: 2025-09-09*

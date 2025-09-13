@@ -1,7 +1,7 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import { AnalysisService } from './analysis';
-import { GitHubFile } from '../types/github'
-import prFiles from '../../tests/fixtures/github/pr-files.json';
+import { AnalysisService } from './analysis.js';
+import { GitHubFile } from '../types/github.js';
+import prFiles from '../../tests/fixtures/github/pr-files.json' with { type: 'json' };
 
 // Mock dependencies with proper typing
 const mockGitHubService = {

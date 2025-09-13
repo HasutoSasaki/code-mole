@@ -2,9 +2,9 @@ import {
   BedrockRuntimeClient,
   InvokeModelCommand,
 } from '@aws-sdk/client-bedrock-runtime';
-import { config } from '../utils/config';
-import { logger } from '../utils/logger';
-import { BedrockRequest, BedrockResponse } from '../types/aws';
+import { config } from '../utils/config.js';
+import { logger } from '../utils/logger.js';
+import { TitanRequest, TitanResponse } from '../types/aws.js';
 
 export class BedrockService {
   private client: BedrockRuntimeClient;
@@ -24,16 +24,13 @@ export class BedrockService {
     });
 
     try {
-      const request: BedrockRequest = {
-        anthropic_version: 'bedrock-2023-05-31',
-        max_tokens: 2000,
-        temperature: 0.1,
-        messages: [
-          {
-            role: 'user',
-            content: prompt
-          }
-        ]
+      const request: TitanRequest = {
+        inputText: prompt,
+        textGenerationConfig: {
+          maxTokenCount: 2000,
+          temperature: 0.1,
+          topP: 0.9
+        }
       };
 
       const command = new InvokeModelCommand({
@@ -49,18 +46,18 @@ export class BedrockService {
         throw new Error('Empty response from Bedrock');
       }
 
-      const responseBody = JSON.parse(new TextDecoder().decode(response.body)) as BedrockResponse;
+      const responseBody = JSON.parse(new TextDecoder().decode(response.body)) as TitanResponse;
       
-      if (!responseBody.content || responseBody.content.length === 0) {
-        throw new Error('No content in Bedrock response');
+      if (!responseBody.results || responseBody.results.length === 0) {
+        throw new Error('No results in Bedrock response');
       }
 
-      const analysis = responseBody.content[0].text;
+      const analysis = responseBody.results[0].outputText;
       
       logger.info('Code analysis completed', {
         filename,
-        inputTokens: responseBody.usage?.input_tokens,
-        outputTokens: responseBody.usage?.output_tokens
+        inputTokens: responseBody.inputTextTokenCount,
+        outputTokens: responseBody.results[0].tokenCount
       });
 
       return analysis;

@@ -1,7 +1,7 @@
-import { logger } from '../utils/logger';
-import { BedrockService } from '../lib/bedrock';
-import { GitHubService } from '../lib/github';
-import { CodeIssue, AnalysisResult } from '../types/common';
+import { logger } from '../utils/logger.js';
+import { BedrockService } from '../lib/bedrock.js';
+import { GitHubService } from '../lib/github.js';
+import { CodeIssue, AnalysisResult } from '../types/common.js';
 
 export interface AnalyzeRequest {
   repository: string;

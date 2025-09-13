@@ -141,16 +141,42 @@ GitHub Actions CI/CD pipelines.
 ## Technology Stack
 
 - **Runtime**: Node.js 22 with TypeScript
-- **Infrastructure**: AWS Lambda, API Gateway
+- **Infrastructure**: AWS Lambda, API Gateway, SQS
 - **IaC**: Terraform
 - **AI/ML**: AWS Bedrock (Claude, LLaMA)
 - **Testing**: Jest (recommended)
 - **CI/CD**: GitHub Actions
 
+## Processing Flow
+
+```mermaid
+sequenceDiagram
+    participant D as Developer
+    participant GH as GitHub
+    participant WH as Webhook Handler
+    participant SQ as SQS Queue
+    participant AN as Analyzer Handler
+    participant BR as Bedrock
+    
+    D->>GH: Create/Update PR
+    GH->>WH: Send webhook event
+    WH->>WH: Validate payload
+    WH->>SQ: Queue analysis request
+    WH->>GH: Return 200 OK
+    
+    Note over SQ,AN: Asynchronous processing
+    SQ->>AN: Trigger analysis
+    AN->>GH: Fetch PR diff
+    AN->>BR: Analyze code
+    BR->>AN: Return analysis result
+    AN->>GH: Post review comment
+```
+
 ## Key Design Principles
 
 1. **Separation of Concerns**: Clear separation between handlers (API layer), services (business logic), and lib (infrastructure layer)
-2. **Environment Management**: Infrastructure code organized by environments
-3. **Type Safety**: Comprehensive TypeScript type definitions
-4. **Testability**: Test structure mirrors source structure
-5. **Modularity**: Reusable Terraform modules for infrastructure components
+2. **Asynchronous Processing**: SQS-based decoupling for reliable message processing
+3. **Environment Management**: Infrastructure code organized by environments
+4. **Type Safety**: Comprehensive TypeScript type definitions
+5. **Testability**: Test structure mirrors source structure
+6. **Modularity**: Reusable Terraform modules for infrastructure components

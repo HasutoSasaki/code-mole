@@ -29,6 +29,17 @@ data "aws_iam_policy_document" "lambda_policy" {
     ]
     resources = ["*"]
   }
+  
+  statement {
+    effect = "Allow"
+    actions = [
+      "sqs:SendMessage",
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes"
+    ]
+    resources = [var.sqs_queue_arn]
+  }
 }
 
 resource "aws_iam_role_policy" "lambda_policy" {
@@ -43,6 +54,33 @@ data "archive_file" "lambda_zip" {
   output_path = "${path.module}/lambda.zip"
 }
 
+data "archive_file" "octokit_layer_zip" {
+  type        = "zip"
+  source_dir  = "${path.root}/../layers/octokit"
+  output_path = "${path.module}/octokit-layer.zip"
+  excludes    = ["build.sh", "package.json"]
+}
+
+# Hash only the package.json for layer dependency tracking
+locals {
+  layer_package_json_hash = filemd5("${path.root}/../layers/octokit/nodejs/package.json")
+}
+
+resource "aws_lambda_layer_version" "octokit_layer" {
+  filename    = data.archive_file.octokit_layer_zip.output_path
+  layer_name  = "${var.project_name}-${var.environment}-octokit"
+  
+  # Only update when package.json changes
+  source_code_hash = local.layer_package_json_hash
+  
+  compatible_runtimes = [var.lambda_runtime]
+  description = "@octokit/rest dependencies layer"
+  
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "aws_lambda_function" "webhook_handler" {
   filename         = data.archive_file.lambda_zip.output_path
   function_name    = "${var.project_name}-${var.environment}-webhook-handler"
@@ -51,10 +89,13 @@ resource "aws_lambda_function" "webhook_handler" {
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime          = var.lambda_runtime
   timeout          = 30
+  
+  layers = [aws_lambda_layer_version.octokit_layer.arn]
 
   environment {
     variables = {
-      NODE_ENV = var.environment
+      NODE_ENV      = var.environment
+      SQS_QUEUE_URL = var.sqs_queue_url
     }
   }
 
@@ -69,12 +110,22 @@ resource "aws_lambda_function" "analyzer_handler" {
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime          = var.lambda_runtime
   timeout          = 300
+  
+  layers = [aws_lambda_layer_version.octokit_layer.arn]
 
   environment {
     variables = {
-      NODE_ENV = var.environment
+      NODE_ENV      = var.environment
+      SQS_QUEUE_URL = var.sqs_queue_url
     }
   }
 
   tags = var.tags
+}
+
+resource "aws_lambda_event_source_mapping" "sqs_trigger" {
+  event_source_arn = var.sqs_queue_arn
+  function_name    = aws_lambda_function.analyzer_handler.arn
+  batch_size       = 1
+  enabled          = true
 }

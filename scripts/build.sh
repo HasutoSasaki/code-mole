@@ -22,6 +22,10 @@ rm -rf dist/
 echo "📝 Compiling TypeScript..."
 npm run build
 
+# Copy package.json to dist for ES module support
+echo "📋 Copying package.json for ES module support..."
+cp package.json dist/
+
 # Build Lambda Layer
 echo "🏗️ Building Lambda layers..."
 ./layers/octokit/build.sh

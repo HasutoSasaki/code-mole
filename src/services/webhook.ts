@@ -29,6 +29,7 @@ export class WebhookService {
     switch (action) {
       case 'opened':
       case 'synchronize':
+      case 'reopened':
         logger.info('PR opened or updated, triggering analysis');
         
         const analysisMessage: AnalysisMessage = {

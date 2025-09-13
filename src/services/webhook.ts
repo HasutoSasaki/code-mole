@@ -13,8 +13,8 @@ export interface WebhookProcessResult {
 export class WebhookService {
   private sqsService: SQSService;
 
-  constructor() {
-    this.sqsService = new SQSService();
+  constructor(sqsService?: SQSService) {
+    this.sqsService = sqsService ?? new SQSService();
   }
 
   async processWebhookEvent(payload: GitHubWebhookPayload): Promise<WebhookProcessResult> {
@@ -31,7 +31,7 @@ export class WebhookService {
       case 'synchronize':
       case 'reopened':
         logger.info('PR opened or updated, triggering analysis');
-        
+
         const analysisMessage: AnalysisMessage = {
           repository: payload.repository.full_name,
           owner: payload.repository.owner.login,
@@ -39,39 +39,39 @@ export class WebhookService {
           pullRequestNumber: pr.number,
           action
         };
-        
+
         try {
           await this.sqsService.sendAnalysisMessage(analysisMessage);
-          return { 
-            message: 'Analysis queued successfully', 
+          return {
+            message: 'Analysis queued successfully',
             prNumber: pr.number,
             shouldAnalyze: true,
             analysisQueued: true
           };
         } catch (error) {
           logger.error('Failed to queue analysis', error);
-          return { 
-            message: 'Failed to queue analysis', 
+          return {
+            message: 'Failed to queue analysis',
             prNumber: pr.number,
             shouldAnalyze: true,
             analysisQueued: false
           };
         }
-        
+
       case 'closed':
         logger.info('PR closed, skipping analysis');
-        return { 
-          message: 'PR closed, no analysis needed', 
+        return {
+          message: 'PR closed, no analysis needed',
           prNumber: pr.number,
-          shouldAnalyze: false 
+          shouldAnalyze: false
         };
-        
+
       default:
         logger.info('Unhandled webhook action', { action });
-        return { 
-          message: 'Action ignored', 
+        return {
+          message: 'Action ignored',
           action,
-          shouldAnalyze: false 
+          shouldAnalyze: false
         };
     }
   }
